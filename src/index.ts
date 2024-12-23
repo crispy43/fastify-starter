@@ -3,7 +3,6 @@ import 'dotenv/config';
 import helmet from '@fastify/helmet';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
@@ -13,7 +12,7 @@ import { ErrorCode } from './constants/app';
 const start = async () => {
   const server = Fastify({
     logger: true,
-  }).withTypeProvider<TypeBoxTypeProvider>();
+  });
 
   server.register(helmet, HELMET);
   await server.register(fastifySwagger, SWAGGER);
