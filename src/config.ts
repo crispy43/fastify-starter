@@ -1,8 +1,8 @@
 import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 
 import { SwaggerTags } from './constants/app';
-import HealthRouter from './routers/health';
-import TemplateRouter from './routers/template';
+import HealthRouter from './routers/health/router';
+import TemplateRouter from './routers/template/router';
 
 // * Routers
 export const ROUTERS = [HealthRouter, TemplateRouter] as const;

@@ -1,6 +1,6 @@
 import type { Router } from '~/interfaces/types';
 
-import root from './routes';
+import root from './routes/root';
 
 const TemplateRouter: Router = {
   prefix: '/template',
