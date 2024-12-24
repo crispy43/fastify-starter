@@ -2,6 +2,8 @@
 import type { Connection } from 'mongoose';
 import mongoose from 'mongoose';
 import mongooseToJsonSchema from 'mongoose-schema-jsonschema';
+
+import { getEnv } from './utils';
 mongooseToJsonSchema(mongoose);
 
 declare module 'mongoose' {
@@ -15,11 +17,7 @@ export enum Database {
   DB = 'db',
 }
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error('Please define the MONGODB_URI environment variable.');
-}
+const MONGODB_URI = getEnv('MONGODB_URI');
 
 export const db: Connection = mongoose.createConnection(MONGODB_URI + `/${Database.DB}`, {
   bufferCommands: false,

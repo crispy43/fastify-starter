@@ -9,9 +9,9 @@ export const redis = new Redis({
   maxRetriesPerRequest: null,
 });
 
-export const getRedisJson = async (key: string) => {
+export const getRedisJson = async <T = any>(key: string) => {
   const data = await redis.get(key);
-  return data ? JSON.parse(data) : null;
+  return data ? (JSON.parse(data) as T) : null;
 };
 
 export const setRedisJson = async (key: string, value: any) => {
