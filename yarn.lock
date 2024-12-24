@@ -2185,6 +2185,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mongoose-schema-jsonschema@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "mongoose-schema-jsonschema@npm:3.0.2"
+  dependencies:
+    pluralize: "npm:^8.0.0"
+  peerDependencies:
+    mongoose: ">=5.0.0 <9.0.0"
+  checksum: 10c0/42ac72fe6206c72dda24e52bb4c5643c885d56a1f97d0c5a0a8ddcec54acfdb878cb0fd525f604d00b5b147cbbaef8ad7624b124bddf023ae4e12689103b7246
+  languageName: node
+  linkType: hard
+
 "mongoose@npm:^8.9.2":
   version: 8.9.2
   resolution: "mongoose@npm:8.9.2"
@@ -2471,6 +2482,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pluralize@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "pluralize@npm:8.0.0"
+  checksum: 10c0/2044cfc34b2e8c88b73379ea4a36fc577db04f651c2909041b054c981cd863dd5373ebd030123ab058d194ae615d3a97cfdac653991e499d10caf592e8b3dc33
+  languageName: node
+  linkType: hard
+
 "prelude-ls@npm:^1.2.1":
   version: 1.2.1
   resolution: "prelude-ls@npm:1.2.1"
@@ -2745,6 +2763,7 @@ __metadata:
     json-schema-to-ts: "npm:^3.1.1"
     mongoose: "npm:^8.9.2"
     mongoose-autopopulate: "npm:^1.1.0"
+    mongoose-schema-jsonschema: "npm:^3.0.2"
     prettier: "npm:^3.3.3"
     ts-node: "npm:^10.9.2"
     tsc-alias: "npm:^1.8.10"

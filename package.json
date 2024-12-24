@@ -34,7 +34,8 @@
     "ioredis": "^5.4.2",
     "json-schema-to-ts": "^3.1.1",
     "mongoose": "^8.9.2",
-    "mongoose-autopopulate": "^1.1.0"
+    "mongoose-autopopulate": "^1.1.0",
+    "mongoose-schema-jsonschema": "^3.0.2"
   },
   "engines": {
     "node": ">=20.0.0"

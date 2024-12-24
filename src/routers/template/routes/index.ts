@@ -4,7 +4,7 @@ import type { FromSchema } from 'json-schema-to-ts';
 import { SwaggerTags } from '~/constants/app';
 import type { Route } from '~/interfaces/types';
 import { UserModel } from '~/models';
-import userSchema, { User } from '~/models/user';
+import { User, userJsonSchema } from '~/models/user';
 
 import { dummySchema } from '../schemas/dummy';
 
@@ -23,7 +23,10 @@ const root: Route = (app: FastifyInstance) => {
         tags: [SwaggerTags.ETC],
         querystring: dummySchema,
         response: {
-          200: dummySchema,
+          200: {
+            type: 'array',
+            items: userJsonSchema,
+          },
         },
       },
     },
@@ -48,7 +51,7 @@ const root: Route = (app: FastifyInstance) => {
         response: {
           200: {
             type: 'array',
-            items: userSchema,
+            items: userJsonSchema,
           },
         },
       },

@@ -18,4 +18,6 @@ const userSchema = new Schema<User>({
   updatedAt: { type: Date, default: Date.now },
 });
 
+export const userJsonSchema = userSchema.jsonSchema();
+
 export default userSchema;

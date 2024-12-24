@@ -1,6 +1,14 @@
 /* eslint-disable no-var */
 import type { Connection } from 'mongoose';
 import mongoose from 'mongoose';
+import mongooseToJsonSchema from 'mongoose-schema-jsonschema';
+mongooseToJsonSchema(mongoose);
+
+declare module 'mongoose' {
+  interface Schema {
+    jsonSchema(): Record<string, any>;
+  }
+}
 
 // * MongoDB Database
 export enum Database {
