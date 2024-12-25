@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import type { FromSchema } from 'json-schema-to-ts';
 
-import { SwaggerTags } from '~/constants/app';
+import { SwaggerTag } from '~/constants/server';
 import type { Router } from '~/interfaces/types';
 
 export const okSchema = {
@@ -23,7 +23,7 @@ const HealthRouter: Router = {
         {
           schema: {
             description: '헬스체크',
-            tags: [SwaggerTags.ETC],
+            tags: [SwaggerTag.ETC],
             response: {
               200: okSchema,
             },

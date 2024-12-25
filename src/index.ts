@@ -7,7 +7,7 @@ import type { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
 import { HELMET, ROUTERS, SWAGGER, SWAGGER_UI } from './config';
-import { ErrorCode } from './constants/app';
+import { ErrorCode } from './constants/server';
 
 const start = async () => {
   const server = Fastify({

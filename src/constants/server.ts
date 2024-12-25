@@ -8,6 +8,6 @@ export enum ErrorCode {
 }
 
 // * 스웨거 태그
-export enum SwaggerTags {
-  ETC = 'Etc',
+export enum SwaggerTag {
+  ETC = 'ETC',
 }

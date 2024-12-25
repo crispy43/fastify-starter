@@ -1,7 +1,8 @@
-import { FastifyHelmetOptions } from '@fastify/helmet';
+import type { FastifyHelmetOptions } from '@fastify/helmet';
 import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
+import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 
-import { SwaggerTags } from './constants/app';
+import { SwaggerTag } from './constants/server';
 import { Router } from './interfaces/types';
 import HealthRouter from './routers/health/router';
 import TemplateRouter from './routers/template/router';
@@ -30,7 +31,7 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
         description: 'Localhost server',
       },
     ],
-    tags: [{ name: SwaggerTags.ETC, description: '기타' }],
+    tags: [{ name: SwaggerTag.ETC, description: '기타' }],
     components: {
       securitySchemes: {
         apiKey: {
@@ -42,10 +43,10 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
     },
   },
 };
-export const SWAGGER_UI = {
+export const SWAGGER_UI: FastifySwaggerUiOptions = {
   routePrefix: '/documentation',
   uiConfig: {
-    docExpansion: 'full',
+    docExpansion: 'list',
     deepLinking: false,
   },
   uiHooks: {
