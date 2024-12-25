@@ -1,17 +1,22 @@
+import { FastifyHelmetOptions } from '@fastify/helmet';
 import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 
 import { SwaggerTags } from './constants/app';
+import { Router } from './interfaces/types';
 import HealthRouter from './routers/health/router';
 import TemplateRouter from './routers/template/router';
 
 // * Routers
-export const ROUTERS = [HealthRouter, TemplateRouter] as const;
+// TODO: 라우터 모듈 추가시 ROUTERS 배열에 포함
+export const ROUTERS: Router[] = [HealthRouter, TemplateRouter] as const;
 
 // * Helmet 옵션
-export const HELMET = { contentSecurityPolicy: false } as const;
+// https://github.com/fastify/fastify-helmet#readme
+export const HELMET: FastifyHelmetOptions = { contentSecurityPolicy: false } as const;
 
 // * Swagger 옵션
-export const SWAGGER = {
+// https://github.com/fastify/fastify-swagger#readme
+export const SWAGGER: FastifyDynamicSwaggerOptions = {
   openapi: {
     openapi: '3.0.0',
     info: {
@@ -36,8 +41,7 @@ export const SWAGGER = {
       },
     },
   },
-} as FastifyDynamicSwaggerOptions;
-
+};
 export const SWAGGER_UI = {
   routePrefix: '/documentation',
   uiConfig: {

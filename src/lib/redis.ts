@@ -14,6 +14,12 @@ export const getRedisJson = async <T = any>(key: string) => {
   return data ? (JSON.parse(data) as T) : null;
 };
 
-export const setRedisJson = async (key: string, value: any) => {
-  await redis.set(key, JSON.stringify(value));
+export const setRedisJson = async (key: string, value: any, expireTime?: number) => {
+  return expireTime
+    ? await redis.set(key, JSON.stringify(value), 'EX', expireTime)
+    : await redis.set(key, JSON.stringify(value));
+};
+
+export const delRedis = async (key: string) => {
+  return await redis.del(key);
 };
