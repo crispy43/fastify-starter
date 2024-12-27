@@ -8,7 +8,7 @@ import { User, userJsonSchema } from '~/models/user';
 
 import { dummySchema } from '../schemas/dummy';
 
-const path = '/';
+const PATH = '/';
 
 const root: Route = (app: FastifyInstance) => {
   // * GET
@@ -16,7 +16,7 @@ const root: Route = (app: FastifyInstance) => {
     Querystring: FromSchema<typeof dummySchema>;
     Reply: User[];
   }>(
-    path,
+    PATH,
     {
       schema: {
         description: '탬플릿',
@@ -42,7 +42,7 @@ const root: Route = (app: FastifyInstance) => {
     Body: FromSchema<typeof dummySchema>;
     Reply: User[];
   }>(
-    path,
+    PATH,
     {
       schema: {
         description: '탬플릿',

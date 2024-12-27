@@ -8,6 +8,7 @@ import Fastify from 'fastify';
 
 import { HELMET, ROUTERS, SWAGGER, SWAGGER_UI } from './config';
 import { ErrorCode } from './constants/server';
+import { redis } from './lib/redis';
 
 const start = async () => {
   const server = Fastify({
@@ -47,6 +48,7 @@ const start = async () => {
   ['SIGINT', 'SIGTERM'].forEach((signal) => {
     process.on(signal, async () => {
       try {
+        await redis.quit();
         await server.close();
         server.log.error(`Closed application on ${signal}`);
         process.exit(0);
