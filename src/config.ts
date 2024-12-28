@@ -4,6 +4,7 @@ import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 
 import { SwaggerTag } from './constants/server';
 import { Router } from './interfaces/types';
+import { getEnv } from './lib/utils';
 import HealthRouter from './routers/health/router';
 import TemplateRouter from './routers/template/router';
 
@@ -27,7 +28,7 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: `http://localhost:${getEnv('PORT', '3000')}`,
         description: 'Localhost server',
       },
     ],

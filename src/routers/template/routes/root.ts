@@ -1,65 +1,33 @@
 import type { FastifyInstance } from 'fastify';
-import type { FromSchema } from 'json-schema-to-ts';
 
-import { SwaggerTag } from '~/constants/server';
-import type { Route } from '~/interfaces/types';
-import { UserModel } from '~/models';
-import { User, userJsonSchema } from '~/models/user';
+import type { FromJsonSchema, Route } from '~/interfaces/types';
 
-import { dummySchema } from '../schemas/dummy';
+import { getRootSchema, postRootSchema } from '../schemas/root';
 
 const PATH = '/';
 
 const root: Route = (app: FastifyInstance) => {
   // * GET
-  app.get<{
-    Querystring: FromSchema<typeof dummySchema>;
-    Reply: User[];
-  }>(
+  app.get<FromJsonSchema<typeof getRootSchema>>(
     PATH,
     {
-      schema: {
-        description: '탬플릿',
-        tags: [SwaggerTag.ETC],
-        querystring: dummySchema,
-        response: {
-          200: {
-            type: 'array',
-            items: userJsonSchema,
-          },
-        },
-      },
+      schema: getRootSchema,
     },
     async (request, reply) => {
       const { name } = request.query;
-      const users = await UserModel.find<User>({ name });
-      reply.status(200).send(users);
+      reply.status(200).send({ name });
     },
   );
 
   // * POST
-  app.post<{
-    Body: FromSchema<typeof dummySchema>;
-    Reply: User[];
-  }>(
+  app.post<FromJsonSchema<typeof postRootSchema>>(
     PATH,
     {
-      schema: {
-        description: '탬플릿',
-        tags: [SwaggerTag.ETC],
-        body: dummySchema,
-        response: {
-          200: {
-            type: 'array',
-            items: userJsonSchema,
-          },
-        },
-      },
+      schema: postRootSchema,
     },
     async (request, reply) => {
       const { name } = request.body;
-      const users = await UserModel.find<User>({ name });
-      reply.status(200).send(users);
+      reply.status(200).send({ name });
     },
   );
 };
