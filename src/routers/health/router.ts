@@ -1,34 +1,30 @@
 import type { FastifyInstance } from 'fastify';
-import type { FromSchema } from 'json-schema-to-ts';
 
 import { SwaggerTag } from '~/constants/server';
-import type { Router } from '~/interfaces/types';
+import type { FromJsonSchema, Router } from '~/interfaces/types';
 
-export const okSchema = {
-  type: 'object',
-  properties: {
-    status: { type: 'string' },
+const getHealthSchema = {
+  summary: '헬스체크',
+  description: '헬스체크',
+  tags: [SwaggerTag.ETC],
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        status: { type: 'string' },
+      },
+      required: ['status'],
+    },
   },
-  required: ['status'],
 } as const;
 
 const HealthRouter: Router = {
   prefix: '/health',
   routes: [
     (app: FastifyInstance) => {
-      app.get<{
-        Reply: FromSchema<typeof okSchema>;
-      }>(
+      app.get<FromJsonSchema<typeof getHealthSchema>>(
         '/',
-        {
-          schema: {
-            description: '헬스체크',
-            tags: [SwaggerTag.ETC],
-            response: {
-              200: okSchema,
-            },
-          },
-        },
+        { schema: getHealthSchema },
         (_, reply) => {
           reply.status(200).send({ status: 'ok' });
         },
