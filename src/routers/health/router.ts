@@ -4,9 +4,9 @@ import { SwaggerTag } from '~/constants/server';
 import type { FromJsonSchema, Router } from '~/interfaces/types';
 
 const getHealthSchema = {
+  tags: [SwaggerTag.ETC],
   summary: '헬스체크',
   description: '헬스체크',
-  tags: [SwaggerTag.ETC],
   response: {
     200: {
       type: 'object',
