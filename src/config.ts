@@ -26,20 +26,23 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
       description: 'Fastify Starter API Documentation',
       version: '0.1.0',
     },
+    // TODO: 서버 URL 추가시 servers 배열에 포함
     servers: [
       {
         url: `http://localhost:${getEnv('PORT', '3000')}`,
         description: 'Localhost server',
       },
     ],
+    // TODO: 스웨거 태그 추가시 tags 배열에 포함
     tags: [{ name: SwaggerTag.ETC, description: '기타' }],
     components: {
+      // TODO: Auth 인증 추가시 securitySchemes에 추가
+      // 각 라우트 스키마에 security 속성 추가시 적용
       securitySchemes: {
-        apiKey: {
-          type: 'apiKey',
-          name: 'apiKey',
-          in: 'header',
-        },
+        // bearerAuth: {
+        //   type: 'http',
+        //   scheme: 'bearer',
+        // },
       },
     },
   },
