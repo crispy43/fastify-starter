@@ -3,7 +3,7 @@ import { FromSchema } from 'json-schema-to-ts';
 
 export type Route = (app: FastifyInstance) => void;
 
-export type Router = {
+export type Module = {
   prefix: string;
   routes: Route[];
 };

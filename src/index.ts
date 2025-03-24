@@ -6,7 +6,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import type { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
-import { HELMET, ROUTERS, SWAGGER, SWAGGER_UI } from './config';
+import { HELMET, MODULES, SWAGGER, SWAGGER_UI } from './config';
 import { ErrorCode } from './constants/server';
 import { redis } from './lib/redis';
 
@@ -19,7 +19,7 @@ const start = async () => {
   await server.register(fastifySwagger, SWAGGER);
   await server.register(fastifySwaggerUi, SWAGGER_UI);
 
-  ROUTERS.forEach(({ prefix, routes }) => {
+  MODULES.forEach(({ prefix, routes }) => {
     server.register(
       async (app: FastifyInstance) => routes.forEach((route) => route(app)),
       { prefix },

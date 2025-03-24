@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 
 import { SwaggerTag } from '~/constants/server';
-import type { FromJsonSchema, Router } from '~/interfaces/types';
+import type { FromJsonSchema, Module } from '~/interfaces/types';
 
 const getHealthSchema = {
   tags: [SwaggerTag.ETC],
@@ -18,7 +18,7 @@ const getHealthSchema = {
   },
 } as const;
 
-const HealthRouter: Router = {
+const HealthRouter: Module = {
   prefix: '/health',
   routes: [
     (app: FastifyInstance) => {

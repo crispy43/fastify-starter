@@ -3,14 +3,14 @@ import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 
 import { SwaggerTag } from './constants/server';
-import { Router } from './interfaces/types';
+import type { Module } from './interfaces/types';
 import { getEnv } from './lib/utils';
-import HealthRouter from './routers/health/router';
-import TemplateRouter from './routers/template/router';
+import HealthRouter from './modules/health/module';
+import TemplateRouter from './modules/template/module';
 
-// * Routers
-// TODO: 라우터 모듈 추가시 ROUTERS 배열에 포함
-export const ROUTERS: Router[] = [HealthRouter, TemplateRouter] as const;
+// * Modules
+// TODO: 모듈 추가시 ROUTERS 배열에 포함
+export const MODULES: Module[] = [HealthRouter, TemplateRouter] as const;
 
 // * Helmet 옵션
 // https://github.com/fastify/fastify-helmet#readme
