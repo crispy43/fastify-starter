@@ -5,14 +5,14 @@ import type { FastifyLoggerOptions } from 'fastify';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
 
 import { SwaggerTag } from './common/server';
-import type { Module } from './common/types';
+import type { Module } from './lib/module-factory';
 import { env } from './lib/utils';
-import HealthRouter from './modules/health/module';
-import TemplateRouter from './modules/template/module';
+import HealthModule from './modules/health/module';
+import UserRouter from './modules/user/module';
 
 // * Modules
 // TODO: 모듈 추가시 ROUTERS 배열에 포함
-export const MODULES: Module[] = [HealthRouter, TemplateRouter] as const;
+export const MODULES: Module[] = [HealthModule, UserRouter] as const;
 
 // * Logger 옵션
 // https://github.com/pinojs/pino#readme

@@ -1,7 +1,6 @@
-import type { FastifyInstance } from 'fastify';
-
 import { SwaggerTag } from '~/common/server';
-import type { FromJsonSchema, Module } from '~/common/types';
+import type { Handler } from '~/lib/module-factory';
+import { createModule, createRoute } from '~/lib/module-factory';
 
 const getHealthSchema = {
   tags: [SwaggerTag.ETC],
@@ -18,19 +17,12 @@ const getHealthSchema = {
   },
 } as const;
 
-const HealthRouter: Module = {
-  prefix: '/health',
-  routes: [
-    (app: FastifyInstance) => {
-      app.get<FromJsonSchema<typeof getHealthSchema>>(
-        '/',
-        { schema: getHealthSchema },
-        (_, reply) => {
-          reply.status(200).send({ status: 'ok' });
-        },
-      );
-    },
-  ],
+const handleGetHealth: Handler<typeof getHealthSchema> = async (_, reply) => {
+  reply.status(200).send({ status: 'ok' });
 };
 
-export default HealthRouter;
+const HealthModule = createModule({ prefix: '/health' }, [
+  createRoute('/', 'GET', handleGetHealth, getHealthSchema),
+]);
+
+export default HealthModule;

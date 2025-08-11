@@ -2,17 +2,14 @@
 /* eslint-disable no-var */
 import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
-import mongooseToJsonSchema from 'mongoose-schema-jsonschema';
 
 import type { ToJson } from '~/common/types';
 
 import { env } from './utils';
-mongooseToJsonSchema(mongoose);
 
 declare module 'mongoose' {
-  interface Schema {
+  interface Document {
     toJSON(): ToJson<this>;
-    jsonSchema(): Record<string, any>;
   }
 }
 
@@ -27,7 +24,7 @@ const connectionOptions = {
 
 // TODO: DB에 따라 enum 설정
 export enum MongoDB {
-  DB = 'db',
+  DB = 'fastify-starter',
 }
 
 // TODO: 기본 DB 설정

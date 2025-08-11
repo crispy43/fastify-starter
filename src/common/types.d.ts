@@ -1,12 +1,5 @@
-import type { FastifyInstance } from 'fastify';
 import type { FromSchema } from 'json-schema-to-ts';
-
-export type Route = (app: FastifyInstance) => void;
-
-export type Module = {
-  prefix: string;
-  routes: Route[];
-};
+import type { ObjectId } from 'mongoose';
 
 export type FromJsonSchema<T> = {
   Querystring: T extends { querystring: infer Q } ? FromSchema<Q> : never;
@@ -16,11 +9,10 @@ export type FromJsonSchema<T> = {
 };
 
 // * JSON 직렬화 타입 추론
-// NOTE: 타입 유실 방지를 위해 toJson 함수로 JSON 직렬화 반환하는 경우 사용
 export type ToJson<T> = T extends string | number | boolean | null
   ? T // 기본 타입은 그대로 반환
   : T extends ObjectId
-    ? string // ObjectId는 string으로 반환
+    ? string // ObjectId는 문자열로 변환
     : T extends undefined
       ? never // undefined는 반환하지 않음
       : T extends (...args: any[]) => any

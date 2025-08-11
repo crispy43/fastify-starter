@@ -5,21 +5,28 @@ import { generateModel, MongoDB } from '~/lib/mongodb';
 
 export interface User extends Document {
   _id: Schema.Types.ObjectId;
-  email: string;
   name: string;
-  isDeleted: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const userSchema = new Schema<User>({
   _id: { type: Schema.Types.ObjectId, auto: true },
-  email: { type: String, required: true, unique: true },
   name: { type: String, required: true },
-  isDeleted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
 });
+
+export const userJsonSchema = {
+  type: 'object',
+  properties: {
+    _id: { type: 'string' },
+    name: { type: 'string' },
+    createdAt: { type: 'string' },
+    updatedAt: { type: 'string' },
+  },
+  required: ['_id', 'name', 'createdAt', 'updatedAt'],
+} as const;
 
 const models = generateModel<User>([MongoDB.DB], 'User', userSchema);
 const UserModel = models.getModel;

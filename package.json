@@ -40,8 +40,7 @@
     "fastify": "^5.4.0",
     "ioredis": "^5.7.0",
     "json-schema-to-ts": "^3.1.1",
-    "mongoose": "^8.17.1",
-    "mongoose-schema-jsonschema": "^3.0.2"
+    "mongoose": "8.16.2"
   },
   "engines": {
     "node": ">=20.0.0"
