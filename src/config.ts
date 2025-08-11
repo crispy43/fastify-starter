@@ -1,6 +1,8 @@
 import type { FastifyHelmetOptions } from '@fastify/helmet';
 import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
+import { FastifyLoggerOptions } from 'fastify';
+import { PinoLoggerOptions } from 'fastify/types/logger';
 
 import { SwaggerTag } from './constants/server';
 import type { Module } from './interfaces/types';
@@ -11,6 +13,20 @@ import TemplateRouter from './modules/template/module';
 // * Modules
 // TODO: 모듈 추가시 ROUTERS 배열에 포함
 export const MODULES: Module[] = [HealthRouter, TemplateRouter] as const;
+
+// * Logger 옵션
+// https://github.com/pinojs/pino#readme
+export const LOGGER: FastifyLoggerOptions & PinoLoggerOptions = {
+  level: 'info',
+  transport: {
+    target: 'pino-pretty',
+    options: {
+      colorize: true,
+      translateTime: 'SYS:standard',
+      ignore: 'pid,hostname',
+    },
+  },
+};
 
 // * Helmet 옵션
 // https://github.com/fastify/fastify-helmet#readme

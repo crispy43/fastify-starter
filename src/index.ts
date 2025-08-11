@@ -6,13 +6,13 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import type { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
-import { HELMET, MODULES, SWAGGER, SWAGGER_UI } from './config';
+import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
 import { ErrorCode } from './constants/server';
 import { redis } from './lib/redis';
 
 const start = async () => {
   const server = Fastify({
-    logger: true,
+    logger: LOGGER,
   });
 
   server.register(helmet, HELMET);
