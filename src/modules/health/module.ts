@@ -1,7 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 
 import { SwaggerTag } from '~/common/server';
-import type { FromJsonSchema, Module } from '~/interfaces/types';
+import type { FromJsonSchema, Module } from '~/common/types';
 
 const getHealthSchema = {
   tags: [SwaggerTag.ETC],

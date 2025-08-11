@@ -1,5 +1,5 @@
 import type { FastifyInstance } from 'fastify';
-import { FromSchema } from 'json-schema-to-ts';
+import type { FromSchema } from 'json-schema-to-ts';
 
 export type Route = (app: FastifyInstance) => void;
 

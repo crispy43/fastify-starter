@@ -4,7 +4,7 @@ import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 import mongooseToJsonSchema from 'mongoose-schema-jsonschema';
 
-import { ToJson } from '~/common/types';
+import type { ToJson } from '~/common/types';
 
 import { env } from './utils';
 mongooseToJsonSchema(mongoose);

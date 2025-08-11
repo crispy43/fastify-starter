@@ -8,8 +8,8 @@ import Fastify from 'fastify';
 
 import { ErrorCode } from './common/server';
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
-import { redis } from './lib/redis';
-import utils from './lib/utils';
+import { redisDbs } from './lib/redis';
+import utils, { env } from './lib/utils';
 
 utils();
 
@@ -51,7 +51,7 @@ const start = async () => {
   ['SIGINT', 'SIGTERM'].forEach((signal) => {
     process.on(signal, async () => {
       try {
-        await redis.quit();
+        await Promise.all(Object.values(redisDbs).map((redis) => redis.quit()));
         await server.close();
         server.log.error(`Closed application on ${signal}`);
         process.exit(0);
@@ -63,7 +63,7 @@ const start = async () => {
   });
 
   try {
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+    const port = parseInt(env('PORT', '3000'));
     await server.listen({ port });
   } catch (err) {
     server.log.error(err);

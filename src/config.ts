@@ -1,11 +1,11 @@
 import type { FastifyHelmetOptions } from '@fastify/helmet';
 import type { FastifyDynamicSwaggerOptions } from '@fastify/swagger';
 import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
-import { FastifyLoggerOptions } from 'fastify';
-import { PinoLoggerOptions } from 'fastify/types/logger';
+import type { FastifyLoggerOptions } from 'fastify';
+import type { PinoLoggerOptions } from 'fastify/types/logger';
 
 import { SwaggerTag } from './common/server';
-import { Module } from './common/types';
+import type { Module } from './common/types';
 import { env } from './lib/utils';
 import HealthRouter from './modules/health/module';
 import TemplateRouter from './modules/template/module';

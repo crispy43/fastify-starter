@@ -1,4 +1,7 @@
-import { Document, Schema } from 'mongoose';
+import type { Document } from 'mongoose';
+import { Schema } from 'mongoose';
+
+import { generateModel, MongoDB } from '~/lib/mongodb';
 
 export interface User extends Document {
   _id: Schema.Types.ObjectId;
@@ -18,6 +21,7 @@ const userSchema = new Schema<User>({
   updatedAt: { type: Date, default: Date.now },
 });
 
-export const userJsonSchema = userSchema.jsonSchema();
+const models = generateModel<User>([MongoDB.DB], 'User', userSchema);
+const UserModel = models.getModel;
 
-export default userSchema;
+export default UserModel;

@@ -1,4 +1,4 @@
-import type { Module } from '~/interfaces/types';
+import type { Module } from '~/common/types';
 
 import root from './routes/root';
 

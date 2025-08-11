@@ -1,4 +1,4 @@
-import { ToJson } from '~/common/types';
+import type { ToJson } from '~/common/types';
 
 export default function utils() {}
 
