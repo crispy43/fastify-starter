@@ -4,9 +4,9 @@ import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 import { FastifyLoggerOptions } from 'fastify';
 import { PinoLoggerOptions } from 'fastify/types/logger';
 
-import { SwaggerTag } from './constants/server';
-import type { Module } from './interfaces/types';
-import { getEnv } from './lib/utils';
+import { SwaggerTag } from './common/server';
+import { Module } from './common/types';
+import { env } from './lib/utils';
 import HealthRouter from './modules/health/module';
 import TemplateRouter from './modules/template/module';
 
@@ -45,7 +45,7 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
     // TODO: 서버 URL 추가시 servers 배열에 포함
     servers: [
       {
-        url: `http://localhost:${getEnv('PORT', '3000')}`,
+        url: `http://localhost:${env('PORT', '3000')}`,
         description: 'Localhost server',
       },
     ],
@@ -64,7 +64,7 @@ export const SWAGGER: FastifyDynamicSwaggerOptions = {
   },
 };
 export const SWAGGER_UI: FastifySwaggerUiOptions = {
-  routePrefix: '/documentation',
+  routePrefix: '/docs',
   uiConfig: {
     docExpansion: 'list',
     deepLinking: false,

@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
-import { SwaggerTag } from '~/constants/server';
+import { SwaggerTag } from '~/common/server';
 import type { FromJsonSchema, Module } from '~/interfaces/types';
 
 const getHealthSchema = {

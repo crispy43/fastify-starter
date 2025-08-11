@@ -1,6 +1,6 @@
 import type { FastifyInstance } from 'fastify';
 
-import type { FromJsonSchema, Route } from '~/interfaces/types';
+import { FromJsonSchema, Route } from '~/common/types';
 
 import { getRootSchema, postRootSchema } from '../schemas/root';
 

@@ -1,25 +1,63 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable no-var */
-import type { Connection } from 'mongoose';
+import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 import mongooseToJsonSchema from 'mongoose-schema-jsonschema';
 
-import { getEnv } from './utils';
+import { ToJson } from '~/common/types';
+
+import { env } from './utils';
 mongooseToJsonSchema(mongoose);
 
 declare module 'mongoose' {
   interface Schema {
+    toJSON(): ToJson<this>;
     jsonSchema(): Record<string, any>;
   }
 }
 
-// * MongoDB Database
-export enum Database {
+const MONGODB_URI = env('MONGODB_URI');
+
+// * MongoDB 연결 옵션
+const connectionOptions = {
+  bufferCommands: true,
+  authSource: 'admin',
+  // replicaSet: 'rs0',
+};
+
+// TODO: DB에 따라 enum 설정
+export enum MongoDB {
   DB = 'db',
 }
 
-const MONGODB_URI = getEnv('MONGODB_URI');
+// TODO: 기본 DB 설정
+const DEFAULT_DB = MongoDB.DB;
 
-export const db: Connection = mongoose.createConnection(MONGODB_URI + `/${Database.DB}`, {
-  bufferCommands: false,
-  authSource: 'admin', // 만약 인증 소스가 admin DB라면 추가
-});
+// * Mongoose Connections
+export const connections = {
+  [MongoDB.DB]: mongoose.createConnection(
+    `${MONGODB_URI}/${MongoDB.DB}`,
+    connectionOptions,
+  ),
+};
+
+// * 모델 생성 함수
+export const generateModel = <T>(dbs: MongoDB[], modelName: string, schema: Schema) => {
+  const models: { [key in MongoDB]?: mongoose.Model<T> } & {
+    getModel?: (db?: MongoDB) => mongoose.Model<T, {}, {}, {}, T, any>;
+  } = {};
+  dbs.forEach((db) => {
+    if (!connections[db]) {
+      throw new Error(`Connection for ${db} does not exist.`);
+    }
+    models[db] =
+      connections[db].models[modelName] || connections[db].model<T>(modelName, schema);
+  });
+  models.getModel = (db: MongoDB = DEFAULT_DB) => {
+    if (!models[db]) {
+      throw new Error(`Model for ${modelName} in ${db} does not exist.`);
+    }
+    return models[db];
+  };
+  return models;
+};

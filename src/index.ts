@@ -6,9 +6,12 @@ import fastifySwaggerUi from '@fastify/swagger-ui';
 import type { FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
+import { ErrorCode } from './common/server';
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
-import { ErrorCode } from './constants/server';
 import { redis } from './lib/redis';
+import utils from './lib/utils';
+
+utils();
 
 const start = async () => {
   const server = Fastify({
