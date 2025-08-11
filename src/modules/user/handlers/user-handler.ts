@@ -1,3 +1,4 @@
+import { NotFoundException } from '~/lib/exceptions';
 import type { Handler } from '~/lib/module-factory';
 import UserModel from '~/models/user';
 
@@ -7,6 +8,7 @@ import type { createUserSchema, getUserSchema } from '../schemas/user-schema';
 export const handleGetUser: Handler<typeof getUserSchema> = async (request, reply) => {
   const { name } = request.query;
   const user = await UserModel().findOne({ name });
+  if (!user) throw new NotFoundException('User not found', 'name');
   reply.status(200).send(user.toJSON());
 };
 

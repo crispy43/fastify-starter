@@ -29,8 +29,9 @@ export const createUserSchema = {
     type: 'object',
     properties: {
       name: { type: 'string' },
+      email: { type: 'string', format: 'email' },
     },
-    required: ['name'],
+    required: ['name', 'email'],
   },
   response: {
     200: userJsonSchema,
