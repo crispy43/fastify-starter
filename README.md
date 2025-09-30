@@ -46,6 +46,7 @@ yarn start
 
 ```typescript
 import type { Handler } from '~/lib/module-factory';
+import { createModule, createRoute } from '~/lib/module-factory';
 
 // 스키마 정의
 const getUserSchema = {
