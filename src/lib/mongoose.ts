@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable no-var */
 import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
@@ -24,7 +23,7 @@ const connectionOptions = {
 
 // TODO: DB에 따라 enum 설정
 export enum MongoDB {
-  DB = 'fastify-starter',
+  DB = 'db',
 }
 
 // TODO: 기본 DB 설정
@@ -40,9 +39,7 @@ export const connections = {
 
 // * 모델 생성 함수
 export const generateModel = <T>(dbs: MongoDB[], modelName: string, schema: Schema) => {
-  const models: { [key in MongoDB]?: mongoose.Model<T> } & {
-    getModel?: (db?: MongoDB) => mongoose.Model<T, {}, {}, {}, T, any>;
-  } = {};
+  const models: Record<MongoDB, mongoose.Model<T> | undefined> = {} as any;
   dbs.forEach((db) => {
     if (!connections[db]) {
       throw new Error(`Connection for ${db} does not exist.`);
@@ -50,11 +47,11 @@ export const generateModel = <T>(dbs: MongoDB[], modelName: string, schema: Sche
     models[db] =
       connections[db].models[modelName] || connections[db].model<T>(modelName, schema);
   });
-  models.getModel = (db: MongoDB = DEFAULT_DB) => {
+  const getModel = (db: MongoDB = DEFAULT_DB): mongoose.Model<T> => {
     if (!models[db]) {
       throw new Error(`Model for ${modelName} in ${db} does not exist.`);
     }
-    return models[db];
+    return models[db]!;
   };
-  return models;
+  return { ...models, getModel };
 };

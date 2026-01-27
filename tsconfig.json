@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths": {
-      "~/*": ["src/*"]
-    },
+    "paths": { "~/*": ["src/*"] },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -17,8 +16,5 @@
     "esModuleInterop": true
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+  "exclude": ["node_modules", "dist"]
 }

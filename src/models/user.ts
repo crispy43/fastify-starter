@@ -1,7 +1,7 @@
 import type { Document } from 'mongoose';
 import { Schema } from 'mongoose';
 
-import { generateModel, MongoDB } from '~/lib/mongodb';
+import { generateModel, MongoDB } from '~/lib/mongoose';
 
 export interface User extends Document {
   _id: Schema.Types.ObjectId;

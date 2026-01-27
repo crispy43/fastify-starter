@@ -3,12 +3,12 @@ import 'dotenv/config';
 import helmet from '@fastify/helmet';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import type { FastifyInstance } from 'fastify';
+import type { FastifyError, FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
 import { HttpException } from './lib/exceptions';
-import { redisDbs } from './lib/redis';
+import { quitAllRedis } from './lib/redis';
 import utils, { env } from './lib/utils';
 
 utils();
@@ -36,8 +36,8 @@ const start = async () => {
   });
 
   // * Set error handler
-  server.setErrorHandler((error, request, reply) => {
-    if (error.validation) {
+  server.setErrorHandler((error: FastifyError, request, reply) => {
+    if (error.validation?.length) {
       request.log.error(
         {
           validation: error.validation,
@@ -112,12 +112,12 @@ const start = async () => {
   ['SIGINT', 'SIGTERM'].forEach((signal) => {
     process.on(signal, async () => {
       try {
-        await Promise.all(Object.values(redisDbs).map((redis) => redis.quit()));
+        await quitAllRedis();
         await server.close();
-        server.log.error(`Closed application on ${signal}`);
+        server.log.info(`Closed application on ${signal}`);
         process.exit(0);
       } catch (error) {
-        server.log.error(`Error closing application on ${signal}`, error);
+        server.log.error(error, `Error closing application on ${signal}`);
         process.exit(1);
       }
     });
