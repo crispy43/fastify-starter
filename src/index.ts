@@ -8,8 +8,11 @@ import Fastify from 'fastify';
 
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
 import { HttpException } from './lib/exceptions';
-import { quitAllRedis } from './lib/redis';
+import { quitAllRedis } from './db/redis/redis';
 import utils, { env } from './lib/utils';
+import prismaPlugin from './plugins/prisma-plugin';
+import { setPrisma } from './db/prisma/prisma';
+import ErrorLogModel from './db/mongoose/models/error-log';
 
 utils();
 
@@ -25,6 +28,9 @@ const start = async () => {
   });
 
   server.register(helmet, HELMET);
+  server.register(prismaPlugin).after(() => {
+    setPrisma(server.prisma);
+  });
   await server.register(fastifySwagger, SWAGGER);
   await server.register(fastifySwaggerUi, SWAGGER_UI);
 
@@ -36,7 +42,7 @@ const start = async () => {
   });
 
   // * Set error handler
-  server.setErrorHandler((error: FastifyError, request, reply) => {
+  server.setErrorHandler(async (error: FastifyError, request, reply) => {
     if (error.validation?.length) {
       request.log.error(
         {
@@ -103,6 +109,11 @@ const start = async () => {
       },
       `${error.constructor.name}: ${error.message}`,
     );
+    await ErrorLogModel().create({
+      message: error.message,
+      name: error.constructor.name,
+      stack: error.stack,
+    });
     return reply.status(500).send({
       message: 'Something went wrong',
     });

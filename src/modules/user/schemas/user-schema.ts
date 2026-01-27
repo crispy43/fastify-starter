@@ -1,5 +1,5 @@
 import { SwaggerTag } from '~/common/server';
-import { userJsonSchema } from '~/models/user';
+import { userJsonSchema } from '~/db/prisma/schemas/user';
 
 // params, querystring, body, response의 각 필드는 JSON schema 기준으로 스키마 작성
 // 정의한 스키마는 FromJsonSchema 제네릭 타입으로 타입 매칭하여 사용
@@ -12,9 +12,9 @@ export const getUserSchema = {
   querystring: {
     type: 'object',
     properties: {
-      name: { type: 'string' },
+      email: { type: 'string', format: 'email' },
     },
-    required: ['name'],
+    required: ['email'],
   },
   response: {
     200: userJsonSchema,
@@ -28,10 +28,10 @@ export const createUserSchema = {
   body: {
     type: 'object',
     properties: {
-      name: { type: 'string' },
       email: { type: 'string', format: 'email' },
+      name: { type: 'string' },
     },
-    required: ['name', 'email'],
+    required: ['email'],
   },
   response: {
     200: userJsonSchema,

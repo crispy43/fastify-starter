@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 import type { ToJson } from '~/common/types';
 
-import { env } from './utils';
+import { env } from '../../lib/utils';
 
 declare module 'mongoose' {
   interface Document {

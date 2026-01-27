@@ -1,6 +1,6 @@
 import Redis, { type Redis as RedisClient } from 'ioredis';
 
-import { env } from './utils';
+import { env } from '../../lib/utils';
 
 const REDIS_URI = env('REDIS_URI');
 

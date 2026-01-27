@@ -1,15 +1,16 @@
+import UserModel from '~/db/mongoose/models/error-log';
 import { NotFoundException } from '~/lib/exceptions';
 import type { Handler } from '~/lib/module-factory';
-import UserModel from '~/models/user';
 
 import type { createUserSchema, getUserSchema } from '../schemas/user-schema';
+import { prisma } from '~/db/prisma/prisma';
 
 // 유저 조회
 export const handleGetUser: Handler<typeof getUserSchema> = async (request, reply) => {
-  const { name } = request.query;
-  const user = await UserModel().findOne({ name }).lean();
-  if (!user) throw new NotFoundException('User not found', 'name');
-  reply.status(200).send(user.toJSON());
+  const { email } = request.query;
+  const user = await prisma().user.findUnique({ where: { email } });
+  if (!user) throw new NotFoundException('User not found', 'email');
+  reply.status(200).send(user);
 };
 
 // 유저 생성
@@ -17,7 +18,12 @@ export const handleCreateUser: Handler<typeof createUserSchema> = async (
   request,
   reply,
 ) => {
-  const { name } = request.body;
-  const user = (await UserModel().create({ name })).toObject();
-  reply.status(201).send(user.toJSON());
+  const { email, name } = request.body;
+  const user = await prisma().user.create({
+    data: {
+      email,
+      name,
+    },
+  });
+  reply.status(201).send(user);
 };

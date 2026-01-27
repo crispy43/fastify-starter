@@ -1,6 +1,6 @@
 # Fastify Starter
 
-Fastify 시작 템플릿입니다. mongoDB와 mongoose, redis DB를 사용할 수 있게 적용되어 있습니다.
+Fastify 시작 템플릿입니다. PostgreSQL과 prisma, MongoDB와 mongoose, Redis를 사용합니다.
 
 ## 설치
 
@@ -36,6 +36,32 @@ yarn build
 
 ```bash
 yarn start
+```
+
+## PostgreSQL, Prisma 관련
+
+### 마이그레이션
+
+PostgreSQL 데이터베이스를 초기화하거나 Prisma 마이그레이션을 생성하려면, `~/db/prisma/models` 경로에 prisma 모델을 정의한 다음 아래 마이그레이션 커맨드를 실행합니다.
+
+```bash
+yarn db:migrate
+```
+
+### Prisma 클라이언트 생성
+
+Prisma 클라이언트 생성은 아래 커맨드를 실행하면 됩니다. `~/db/prisma/.generated/` 경로에 관련 파일이 생성됩니다.
+
+```bash
+yarn db:generate
+```
+
+### Prisma Studio
+
+데이터베이스 탐색을 위한 Prisma Studio 페이지는 아래 커맨드를 실행합니다.
+
+```bash
+yarn db:studio
 ```
 
 ## Fastify Module Factory 사용 가이드
