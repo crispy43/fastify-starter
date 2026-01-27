@@ -8,6 +8,7 @@ import type { Module } from './lib/module-factory';
 import { env } from './lib/utils';
 import HealthModule from './modules/health/module';
 import UserRouter from './modules/user/module';
+import { SwaggerTag } from './common/server';
 
 // * Modules
 // TODO: 모듈 추가시 ROUTERS 배열에 포함
@@ -30,11 +31,6 @@ export const LOGGER: FastifyLoggerOptions & PinoLoggerOptions = {
 // * Helmet 옵션
 // https://github.com/fastify/fastify-helmet#readme
 export const HELMET: FastifyHelmetOptions = { contentSecurityPolicy: false } as const;
-
-// * Swagger 태그
-export enum SwaggerTag {
-  ETC = 'ETC',
-}
 
 // * Swagger 옵션
 // https://github.com/fastify/fastify-swagger#readme
