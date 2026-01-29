@@ -1,8 +1,7 @@
 import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@prisma/client';
 import fp from 'fastify-plugin';
 import { Pool } from 'pg';
-
-import { PrismaClient } from '~/db/prisma/.generated/prisma/client';
 
 export default fp(async (app) => {
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });

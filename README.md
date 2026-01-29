@@ -50,7 +50,7 @@ yarn db:migrate
 
 ### Prisma 클라이언트 생성
 
-Prisma 클라이언트 생성은 아래 커맨드를 실행하면 됩니다. `~/db/prisma/.generated/` 경로에 관련 파일이 생성됩니다.
+Prisma 클라이언트 생성은 아래 커맨드를 실행하면 됩니다.
 
 ```bash
 yarn db:generate
