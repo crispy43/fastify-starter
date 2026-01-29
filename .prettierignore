@@ -1,7 +1,7 @@
 node_modules/
 dist/
+.generated/
 /.vscode
 /.yarn
 yarn.lock
-/.eslintignore
 /.prettierignore
