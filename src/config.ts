@@ -4,11 +4,11 @@ import type { FastifySwaggerUiOptions } from '@fastify/swagger-ui';
 import type { FastifyLoggerOptions } from 'fastify';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
 
+import { SwaggerTag } from './common/server';
 import type { Module } from './lib/module-factory';
 import { env } from './lib/utils';
 import HealthModule from './modules/health/module';
 import UserRouter from './modules/user/module';
-import { SwaggerTag } from './common/server';
 
 // * Modules
 // TODO: 모듈 추가시 ROUTERS 배열에 포함

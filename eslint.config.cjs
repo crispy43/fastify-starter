@@ -29,6 +29,9 @@ module.exports = [
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
       globals: {
         ...globals.browser,
         ...globals.commonjs,
@@ -64,7 +67,7 @@ module.exports = [
 
   // === TypeScript
   {
-    files: ['**/*.{ts}'],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -79,7 +82,7 @@ module.exports = [
     settings: {
       'import/internal-regex': '^~/',
       'import/resolver': {
-        node: { extensions: ['.ts'] },
+        node: { extensions: ['.ts', '.tsx'] },
         typescript: { alwaysTryTypes: true },
       },
     },

@@ -1,6 +1,7 @@
+import { PrismaPg } from '@prisma/adapter-pg';
 import fp from 'fastify-plugin';
 import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
+
 import { PrismaClient } from '~/db/prisma/.generated/prisma/client';
 
 export default fp(async (app) => {

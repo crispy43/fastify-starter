@@ -1,9 +1,8 @@
-import UserModel from '~/db/mongoose/models/error-log';
+import { prisma } from '~/db/prisma/prisma';
 import { NotFoundException } from '~/lib/exceptions';
 import type { Handler } from '~/lib/module-factory';
 
 import type { createUserSchema, getUserSchema } from '../schemas/user-schema';
-import { prisma } from '~/db/prisma/prisma';
 
 // 유저 조회
 export const handleGetUser: Handler<typeof getUserSchema> = async (request, reply) => {

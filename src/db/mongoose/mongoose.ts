@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 

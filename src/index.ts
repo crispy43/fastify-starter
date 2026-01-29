@@ -7,12 +7,12 @@ import type { FastifyError, FastifyInstance } from 'fastify';
 import Fastify from 'fastify';
 
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
-import { HttpException } from './lib/exceptions';
+import ErrorLogModel from './db/mongoose/models/error-log';
+import { setPrisma } from './db/prisma/prisma';
 import { quitAllRedis } from './db/redis/redis';
+import { HttpException } from './lib/exceptions';
 import utils, { env } from './lib/utils';
 import prismaPlugin from './plugins/prisma-plugin';
-import { setPrisma } from './db/prisma/prisma';
-import ErrorLogModel from './db/mongoose/models/error-log';
 
 utils();
 

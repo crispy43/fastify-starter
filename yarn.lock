@@ -915,7 +915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^8.54.0":
+"@typescript-eslint/eslint-plugin@npm:^8.50.0":
   version: 8.54.0
   resolution: "@typescript-eslint/eslint-plugin@npm:8.54.0"
   dependencies:
@@ -935,7 +935,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^8.54.0":
+"@typescript-eslint/parser@npm:^8.50.0":
   version: 8.54.0
   resolution: "@typescript-eslint/parser@npm:8.54.0"
   dependencies:
@@ -5191,8 +5191,8 @@ __metadata:
     "@prisma/client": "npm:^7.3.0"
     "@types/node": "npm:^25.0.10"
     "@types/pg": "npm:^8"
-    "@typescript-eslint/eslint-plugin": "npm:^8.54.0"
-    "@typescript-eslint/parser": "npm:^8.54.0"
+    "@typescript-eslint/eslint-plugin": "npm:^8.50.0"
+    "@typescript-eslint/parser": "npm:^8.50.0"
     dotenv: "npm:^17.2.3"
     eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^10.1.8"
