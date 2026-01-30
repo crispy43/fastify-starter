@@ -12,7 +12,7 @@ import UserRouter from './modules/user/module';
 
 // * Modules
 // TODO: 모듈 추가시 ROUTERS 배열에 포함
-export const MODULES: Module[] = [HealthModule, UserRouter] as const;
+export const MODULES: Module[] = [HealthModule, UserRouter] satisfies readonly Module[];
 
 // * Logger 옵션
 // https://github.com/pinojs/pino#readme

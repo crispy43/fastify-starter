@@ -9,7 +9,6 @@ export type Module = {
   routes: Route[];
 };
 
-// * Factory function types
 export type ModuleConfig = {
   prefix: string;
 };
@@ -27,48 +26,60 @@ export type Builder<T = any> = {
   handler: Handler<T>;
 };
 
-// * Factory function to create type-safe route modules
-export function createModule<TConfig extends ModuleConfig, TRoutes extends Builder[]>(
-  config: TConfig,
-  routes: TRoutes,
-): Module {
-  const buildRoutes = (): Route[] => {
-    return routes.map((routeBuilder) => {
-      return (app: FastifyInstance) => {
-        const { path, method, schema, handler } = routeBuilder;
+export type ModuleItem = Builder<any> | Module;
 
+const isModule = (item: ModuleItem): item is Module => {
+  return (item as Module).routes !== undefined;
+};
+
+// * Factory function to create route modules (nested module 지원)
+export function createModule<
+  TConfig extends ModuleConfig,
+  TItems extends readonly ModuleItem[],
+>(config: TConfig, items: TItems): Module {
+  const buildRoutes = (list: readonly ModuleItem[]): Route[] => {
+    return list.map((item) => {
+      // Module이면: route 선언이 아니라 sub-module register로 감싼다 (재귀)
+      if (isModule(item)) {
+        return (app: FastifyInstance) => {
+          app.register(
+            async (subApp) => {
+              item.routes.forEach((r) => r(subApp));
+            },
+            { prefix: item.prefix },
+          );
+        };
+      }
+
+      // Builder이면: 기존처럼 route 등록
+      return (app: FastifyInstance) => {
+        const { path, method, schema, handler } = item;
         const routeOptions = schema ? { schema } : {};
 
         switch (method) {
           case 'GET':
-            app.get<FromJsonSchema<typeof schema>>(path, routeOptions, (request, reply) =>
-              handler(request, reply, app),
+            app.get(path, routeOptions, (request, reply) =>
+              handler(request as any, reply as any, app),
             );
             break;
           case 'POST':
-            app.post<FromJsonSchema<typeof schema>>(
-              path,
-              routeOptions,
-              (request, reply) => handler(request, reply, app),
+            app.post(path, routeOptions, (request, reply) =>
+              handler(request as any, reply as any, app),
             );
             break;
           case 'PUT':
-            app.put<FromJsonSchema<typeof schema>>(path, routeOptions, (request, reply) =>
-              handler(request, reply, app),
+            app.put(path, routeOptions, (request, reply) =>
+              handler(request as any, reply as any, app),
             );
             break;
           case 'DELETE':
-            app.delete<FromJsonSchema<typeof schema>>(
-              path,
-              routeOptions,
-              (request, reply) => handler(request, reply, app),
+            app.delete(path, routeOptions, (request, reply) =>
+              handler(request as any, reply as any, app),
             );
             break;
           case 'PATCH':
-            app.patch<FromJsonSchema<typeof schema>>(
-              path,
-              routeOptions,
-              (request, reply) => handler(request, reply, app),
+            app.patch(path, routeOptions, (request, reply) =>
+              handler(request as any, reply as any, app),
             );
             break;
           default:
@@ -80,21 +91,31 @@ export function createModule<TConfig extends ModuleConfig, TRoutes extends Build
 
   return {
     prefix: config.prefix,
-    routes: buildRoutes(),
+    routes: buildRoutes(items),
   };
 }
 
-// * Helper function to create route builders
+// * Factory function to create route builders
 export function createRoute<TSchema = any>(
   path: string,
   method: Builder['method'],
   handler: Handler<TSchema>,
   schema?: TSchema,
 ): Builder<TSchema> {
-  return {
-    path,
-    method,
-    schema,
-    handler,
-  };
+  return { path, method, schema, handler };
 }
+
+// * Function to register modules to Fastify instance
+export const registerModule = (app: FastifyInstance, mod: Module) => {
+  app.register(
+    async (subApp) => {
+      mod.routes.forEach((route: Route) => route(subApp));
+    },
+    { prefix: mod.prefix },
+  );
+};
+
+// * Function to register multiple modules
+export const registerModules = (server: FastifyInstance, modules: readonly Module[]) => {
+  modules.forEach((mod) => registerModule(server, mod));
+};

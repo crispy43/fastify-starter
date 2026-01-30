@@ -3,7 +3,7 @@ import 'dotenv/config';
 import helmet from '@fastify/helmet';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
-import type { FastifyError, FastifyInstance } from 'fastify';
+import type { FastifyError } from 'fastify';
 import Fastify from 'fastify';
 
 import { HELMET, LOGGER, MODULES, SWAGGER, SWAGGER_UI } from './config';
@@ -11,6 +11,7 @@ import ErrorLogModel from './db/mongoose/models/error-log';
 import { setPrisma } from './db/prisma/prisma';
 import { quitAllRedis } from './db/redis/redis';
 import { HttpException } from './lib/exceptions';
+import { registerModules } from './lib/module-factory';
 import utils, { env } from './lib/utils';
 import prismaPlugin from './plugins/prisma-plugin';
 
@@ -34,12 +35,8 @@ const start = async () => {
   await server.register(fastifySwagger, SWAGGER);
   await server.register(fastifySwaggerUi, SWAGGER_UI);
 
-  MODULES.forEach(({ prefix, routes }) => {
-    server.register(
-      async (app: FastifyInstance) => routes.forEach((route) => route(app)),
-      { prefix },
-    );
-  });
+  // * Register modules
+  registerModules(server, MODULES);
 
   // * Set error handler
   server.setErrorHandler(async (error: FastifyError, request, reply) => {
@@ -136,7 +133,8 @@ const start = async () => {
 
   try {
     const port = parseInt(env('PORT', '3000'));
-    await server.listen({ port });
+    // TODO: 환경에 따라 host 설정 변경
+    await server.listen({ port, host: '0.0.0.0' });
   } catch (err) {
     server.log.error(err);
     process.exit(1);

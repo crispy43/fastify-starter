@@ -73,6 +73,7 @@ yarn db:studio
 ```typescript
 import type { Handler } from '~/lib/module-factory';
 import { createModule, createRoute } from '~/lib/module-factory';
+import { prisma } from '~/db/prisma/prisma';
 
 // 스키마 정의
 const getUserSchema = {
@@ -97,12 +98,19 @@ const getUserSchema = {
 // 타입 세이프한 핸들러
 const handleGetUser: Handler<typeof getUserSchema> = async (request, reply) => {
   const { id } = request.query;
-  reply.status(200).send({ id, name: 'hong' });
+  const user = await prisma().findUnique({ where: { id } })
+  reply.status(200).send(user);
 };
 
 // 스키마와 함께 라우트 모듈 생성
 const UserModule = createModule({ prefix: '/users' }, [
   createRoute('/', 'GET', handleGetUser, getUserSchema),
+
+  // 모듈의 재귀적 선언 예시
+  createModule({ prefix: '/posts' }. [
+    // 아래 라우트는 상위 모듈 경로를 포함하므로 `/users/posts/` 경로로 설정됨
+    createRoute('/', 'GET', handleGetUserPosts, getUserPostsSchema),
+  ])
 ]);
 ```
 
@@ -113,6 +121,7 @@ const UserModule = createModule({ prefix: '/users' }, [
 ```typescript
 import type { Module } from './lib/module-factory';
 import UserModule from './modules/user/module';
+import HealthModule from './modules/health/module';
 
-export const MODULES: Module[] = [UserModule] as const;
+export const MODULES: Module[] = [UserModule, HealthModule] satisfies readonly Module[];
 ```
