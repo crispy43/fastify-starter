@@ -1,5 +1,3 @@
-import type { ToJson } from '~/common/types';
-
 export default function utils() {}
 
 // * 환경변수 가져오기
@@ -27,43 +25,6 @@ export const formatQuery = (params: Record<string, any>) => {
     }
   });
   return searchParams.toString();
-};
-
-// * JSON fetch
-export const fetchJson = async <T = any>(
-  url: string,
-  options?: RequestInit,
-): Promise<{
-  status?: number;
-  headers?: Headers;
-  data: ToJson<T & { error?: string; message?: string; path?: string }>;
-}> => {
-  try {
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers,
-      },
-    });
-    const status = response.status;
-    const headers = response.headers;
-    const data = (await response.json()) as ToJson<
-      T & { error?: string; message?: string; path?: string }
-    >;
-    return { status, headers, data };
-  } catch (error) {
-    console.error(error);
-    return {
-      data: {
-        error: 'Unknown Error',
-        message:
-          error instanceof Error
-            ? error.message
-            : 'An error occurred while fetching data',
-      } as ToJson<T & { error?: string; message?: string; path?: string }>,
-    };
-  }
 };
 
 // * Timeout promise
