@@ -26,17 +26,3 @@ export const formatQuery = (params: Record<string, any>) => {
   });
   return searchParams.toString();
 };
-
-// * Timeout promise
-export const withTimeout = <T>(
-  promise: Promise<T>,
-  timeout: number,
-  errorMessage: string = 'timeout',
-): Promise<T> => {
-  const timeoutPromise = new Promise<T>((_, reject) => {
-    setTimeout(() => {
-      reject(new Error(errorMessage));
-    }, timeout);
-  });
-  return Promise.race([promise, timeoutPromise]);
-};
