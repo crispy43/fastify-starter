@@ -1,6 +1,6 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
-import type { FromJsonSchema } from '~/common/types';
+import type { FromJsonSchema } from '~/common/types/types';
 
 export type Route = (app: FastifyInstance) => void;
 

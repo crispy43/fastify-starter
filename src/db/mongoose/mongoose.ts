@@ -1,7 +1,7 @@
 import type { Schema } from 'mongoose';
 import mongoose from 'mongoose';
 
-import type { ToJson } from '~/common/types';
+import { ToJson } from '~/common/types/serialize.types';
 
 import { env } from '../../lib/utils';
 
