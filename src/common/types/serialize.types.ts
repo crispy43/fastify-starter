@@ -1,8 +1,6 @@
 import { ObjectId } from 'mongoose';
 
 // * JSON 직렬화 타입 추론 (Jsonify)
-// NOTE: Serializable하지 않은 타입은 loader와 action 함수에서 반환 시 타입 유실 발생하므로,
-// NOTE: 타입 유실 방지를 위해 toJson 함수로 JSON 직렬화 반환하는 경우 사용
 type JsonPrimitive = string | number | boolean | null;
 
 // JSON으로 보낼 수 있는 값 형태
