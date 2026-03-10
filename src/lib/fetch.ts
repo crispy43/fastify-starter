@@ -9,7 +9,7 @@ export type FetchJsonErr<E = unknown> = {
   ok: false;
   status?: number;
   headers?: Headers;
-  error?: E;
+  data?: E;
   rawText?: string;
   cause?: unknown;
 };
@@ -64,7 +64,7 @@ export async function safeFetch<T = unknown, E = unknown>(
       ok: false,
       status,
       headers,
-      error: errorBody,
+      data: errorBody,
       rawText: rawText || undefined,
     };
   } catch (cause) {
