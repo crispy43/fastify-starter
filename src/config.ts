@@ -79,8 +79,29 @@ export const SWAGGER_UI: FastifySwaggerUiOptions = {
   },
   staticCSP: true,
   transformStaticCSP: (header) => header,
-  transformSpecification: (swaggerObject, _, __) => {
-    return swaggerObject;
+  transformSpecification: (swaggerObject, request) => {
+    const hidePrefixes = ['//', '/{*}'];
+    const paths = swaggerObject.paths ?? {};
+    const filteredPaths: typeof paths = {};
+    for (const [routePath, spec] of Object.entries(paths)) {
+      if (hidePrefixes.some((p) => routePath.startsWith(p))) continue;
+      filteredPaths[routePath] = spec;
+    }
+    const protocol = request.protocol;
+    const host =
+      (request.headers['x-forwarded-host'] as string | undefined) ?? request.headers.host;
+    return {
+      ...swaggerObject,
+      paths: filteredPaths,
+      servers: host
+        ? [
+            {
+              url: `${protocol}://${host}`,
+              description: 'Current server',
+            },
+          ]
+        : swaggerObject.servers,
+    };
   },
   transformSpecificationClone: true,
 } as const;
